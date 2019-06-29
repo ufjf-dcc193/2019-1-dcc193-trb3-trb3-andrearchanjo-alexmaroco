@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trabalho 3</title>
+</head>
+<body>
+
+    <h1>Bem vindo <span th:text="${usuario.nome}">Seu Nome Aqui</span>!</h1>
+    
+    <p>
+        <button><a th:href="@{/login/logout.html}">Sair</a></button>
+    </p>
+
+</body>
+</html>

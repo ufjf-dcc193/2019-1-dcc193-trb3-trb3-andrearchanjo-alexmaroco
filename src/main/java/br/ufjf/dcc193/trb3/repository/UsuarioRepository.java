@@ -11,5 +11,6 @@ import br.ufjf.dcc193.trb3.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
+    Usuario findOneByEmailAndCodAcesso(String email, String codAcesso);
     
 }

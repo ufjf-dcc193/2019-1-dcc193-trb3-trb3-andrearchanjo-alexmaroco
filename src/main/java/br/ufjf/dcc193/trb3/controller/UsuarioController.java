@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.ufjf.dcc193.trb3.model.Usuario;
 import br.ufjf.dcc193.trb3.repository.UsuarioRepository;
+import br.ufjf.dcc193.trb3.service.LoginService;
 
 /**
  * UsuarioController
@@ -23,6 +24,9 @@ import br.ufjf.dcc193.trb3.repository.UsuarioRepository;
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
+
+    @Autowired
+    private LoginService ls;
 
     @Autowired
     UsuarioRepository uRepo;
@@ -89,6 +93,15 @@ public class UsuarioController {
             uRepo.save(usuario);
             mv.setViewName("redirect:/usuario/listar.html");
             return mv;
+    }
+
+    @GetMapping(value={"/usuario-logado.html" })
+    public ModelAndView logado() {
+        ModelAndView mv = new ModelAndView();
+        Usuario usuario = ls.getUser();
+        mv.addObject("usuario", usuario);
+        mv.setViewName("usuario-logado");
+        return mv;
     }
     
 }
