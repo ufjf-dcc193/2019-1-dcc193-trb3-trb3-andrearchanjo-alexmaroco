@@ -24,7 +24,7 @@ public class Item {
     private String titulo;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Anotacao> anotacoes;
+    private List<Anotacao> item_anotacoes;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Etiqueta> item_etiquetas;
@@ -50,12 +50,12 @@ public class Item {
         this.titulo = titulo;
     }
 
-    public List<Anotacao> getAnotacoes() {
-        return anotacoes;
+    public List<Anotacao> getItem_anotacoes() {
+        return item_anotacoes;
     }
 
-    public void setAnotacoes(List<Anotacao> anotacoes) {
-        this.anotacoes = anotacoes;
+    public void setItem_anotacoes(List<Anotacao> item_anotacoes) {
+        this.item_anotacoes = item_anotacoes;
     }
 
     public List<Etiqueta> getItem_etiquetas() {
@@ -76,11 +76,9 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item [anotacoes=" + anotacoes + ", etiquetas=" + item_etiquetas + ", id=" + id + ", titulo=" + titulo
+        return "Item [anotacoes=" + item_anotacoes + ", etiquetas=" + item_etiquetas + ", id=" + id + ", titulo=" + titulo
                 + ", vinculos=" + item_vinculos + "]";
     }
-
-    
 
     
 }
