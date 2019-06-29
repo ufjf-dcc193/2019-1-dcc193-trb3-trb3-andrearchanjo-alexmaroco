@@ -13,7 +13,7 @@
     <form th:action="@{/etiqueta/editar.html(id=${etiqueta.id})}" th:object="${etiqueta}" method="POST">
         <table>
             <tr>
-                <td><label>Nome: <input type="text" th:field="*{titulo}" /></label></td>
+                <td><label>Título: <input type="text" th:field="*{titulo}" /></label></td>
                 <td><strong th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></strong></td>
             </tr>
             <tr>
@@ -31,6 +31,6 @@
             </tr>
         </table>
     </form>
-    <p><button><a th:href="@{/index.html}">Voltar</a></button></p>
+    <p><button><a th:href="@{/etiqueta/listar.html}">Voltar</a></button></p>
 </body>
 </html>
