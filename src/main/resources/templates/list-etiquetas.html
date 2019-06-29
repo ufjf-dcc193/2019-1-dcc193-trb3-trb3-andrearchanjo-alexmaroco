@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de etiquetas</title>
+</head>
+
+<body>
+
+    <h1>Etiquetas registrados: </h1>
+
+    <table border="1">
+            <tr> 
+                <th>Id</th>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>URL</th>
+                <th colspan="2">Ações</th>
+            </tr>
+            <tr th:each="etiqueta : ${etiquetas}">
+                <td th:text="${etiqueta.id}">...</td>
+                <td th:text="${etiqueta.titulo}">...</td>
+                <td th:text="${etiqueta.descricao}">...</td>
+                <td th:text="${etiqueta.url}">...</td>
+                <td><a th:href="@{/etiqueta/editar.html(id=${etiqueta.id})}"><button>Editar</button></a></td>
+                <td><a th:href="@{/etiqueta/excluir.html(id=${etiqueta.id})}"><button>Excluir</button></a></td>
+            </tr>
+        </table>
+        <p><button><a th:href="@{/index.html}">Voltar</a></button></p>
+</body>
+</html>
