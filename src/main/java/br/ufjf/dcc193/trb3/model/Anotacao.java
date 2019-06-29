@@ -1,11 +1,13 @@
 package br.ufjf.dcc193.trb3.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -28,8 +30,10 @@ public class Anotacao {
 
     private Long idCriador;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataInclusao;
-
+    
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataAlteracao;
 
     public Anotacao() {}
