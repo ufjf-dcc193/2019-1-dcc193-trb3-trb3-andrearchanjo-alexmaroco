@@ -1,5 +1,7 @@
 package br.ufjf.dcc193.trb3.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class UsuarioController {
     UsuarioRepository uRepo;
 
     @GetMapping("/cadastro.html")
-    public ModelAndView cadastroTrabalho() {
+    public ModelAndView cadastroUsuario() {
         ModelAndView mv = new ModelAndView();
         System.err.println(uRepo.findAll());
         mv.addObject("usuario", new Usuario());
@@ -33,10 +35,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastro.html")
-    public ModelAndView cadastroTrabalho(@Valid Usuario user, BindingResult binding) {
+    public ModelAndView cadastroUsuario(@Valid Usuario user, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
         if(binding.hasErrors()){
-            mv.setViewName("form-cadastro-trabalho");
+            mv.setViewName("form-cadastro-usuario");
             mv.addObject("usuario", user);
             return mv;
         }
@@ -44,6 +46,17 @@ public class UsuarioController {
         uRepo.save(user);
         System.err.println(uRepo.findAll());
         mv.setViewName("redirect:/index.html");
+        return mv;
+    }
+
+    @GetMapping(value={"/listar.html"})
+    public ModelAndView listarTodos() {
+        ModelAndView mv = new ModelAndView();
+        System.err.println("Aqui");
+        List<Usuario> users = uRepo.findAll();
+        mv.addObject("usuarios", users);
+        System.err.println(users.toString());
+        mv.setViewName("list-usuarios");
         return mv;
     }
     
