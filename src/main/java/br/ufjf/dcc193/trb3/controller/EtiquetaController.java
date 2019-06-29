@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -75,13 +76,16 @@ public class EtiquetaController {
     }
 
     @PostMapping(value={"/editar.html" })
-    public ModelAndView editarEtiqueta(@Valid Etiqueta etiqueta, BindingResult binding) {
+    public ModelAndView editarEtiqueta(@RequestParam Long id, @Valid Etiqueta etiqueta, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
             if(binding.hasErrors()){
                 mv.setViewName("form-edit-etiqueta");
                 mv.addObject("etiqueta", etiqueta);
                 return mv;
             }
+            Etiqueta etq = etRepo.findById(id).get();
+            String[] ignorar = {"id"};
+            BeanUtils.copyProperties(etiqueta, etq, ignorar);
             etRepo.save(etiqueta);
             mv.setViewName("redirect:/etiqueta/listar.html");
             return mv;
