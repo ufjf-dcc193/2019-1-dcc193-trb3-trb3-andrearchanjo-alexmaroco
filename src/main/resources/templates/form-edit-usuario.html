@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Usuário</title>
+</head>
+
+<body>
+
+    <h1>Editar Usuário: </h1>
+
+    <form th:action="@{/usuario/editar.html(id=${usuario.id})}" th:object="${usuario}" method="POST">
+        <table>
+            <tr>
+                <td><label>Nome: <input type="text" th:field="*{nome}" /></label></td>
+                <td><strong th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></strong></td>
+            </tr>
+            <tr>
+                <td><label>Código de Acesso: <input type="text" th:field="*{codAcesso}" /></label></td>
+                <td><strong th:if="${#fields.hasErrors('codAcesso')}" th:errors="*{codAcesso}"></strong></td>
+            </tr>
+            <tr>
+                <td><label>Descrição: <input type="text" th:field="*{descricao}" /></label></td>
+                <td><strong th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></strong></td>
+            </tr>
+            <tr>
+                <td><label>E-mail: <input type="text" th:field="*{email}" /></label></td>
+                <td><strong th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></strong></td>
+            </tr>
+            <tr>
+                <td><input type="submit"/></td>
+                <td><input type="reset"/></td>
+            </tr>
+        </table>
+    </form>
+    <p><button><a th:href="@{/index.html}">Voltar</a></button></p>
+</body>
+</html>

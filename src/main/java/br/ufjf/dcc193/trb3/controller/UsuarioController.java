@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -43,9 +44,7 @@ public class UsuarioController {
             mv.addObject("usuario", user);
             return mv;
         }
-        //System.err.println(trab.toString());
         uRepo.save(user);
-        System.err.println(uRepo.findAll());
         mv.setViewName("redirect:/index.html");
         return mv;
     }
@@ -53,7 +52,6 @@ public class UsuarioController {
     @GetMapping(value={"/listar.html"})
     public ModelAndView listarTodos() {
         ModelAndView mv = new ModelAndView();
-        System.err.println("Aqui");
         List<Usuario> users = uRepo.findAll();
         mv.addObject("usuarios", users);
         System.err.println(users.toString());
@@ -67,6 +65,30 @@ public class UsuarioController {
         uRepo.deleteById(id);
         mv.setViewName("redirect:/usuario/listar.html");
         return mv;
+    }
+
+    @GetMapping(value={"/editar.html" })
+    public ModelAndView editarUsuario(@RequestParam Long id) {
+        ModelAndView mv = new ModelAndView();
+        Usuario usuario = uRepo.findById(id).get();
+        mv.addObject("usuario", usuario);
+        mv.setViewName("form-edit-usuario");
+        return mv;
+    }
+
+    @PostMapping(value={"/editar.html" })
+    public ModelAndView editarUsuario(@Valid Usuario usuario, BindingResult binding) {
+        ModelAndView mv = new ModelAndView();
+            if(binding.hasErrors()){
+                mv.setViewName("form-edit-usuario");
+                mv.addObject("usuario", usuario);
+                return mv;
+            }
+            //Usuario user = uRepo.getOne(usuario.getId());
+            //System.err.println(user);
+            uRepo.save(usuario);
+            mv.setViewName("redirect:/usuario/listar.html");
+            return mv;
     }
     
 }
