@@ -18,6 +18,7 @@
                 <th>Vínculos</th>
                 <th>Anotações</th>
                 <th colspan="2">Ações</th>
+                <th colspan="2">Ações Vínculo</th>
             </tr>
             <tr th:each="item : ${itens}">
                 <td th:text="${item.id}">...</td>
@@ -27,6 +28,8 @@
                 <td th:text="${item.item_anotacoes}">...</td>
                 <td><a th:href="@{/item/editar.html(id=${item.id})}"><button>Editar</button></a></td>
                 <td><a th:href="@{/item/excluir.html(id=${item.id})}"><button>Excluir</button></a></td>
+                <td><a th:href="@{/vinculo/cadastro.html(id=${item.id})}"><button>Criar</button></a></td>
+                <td><a th:href="@{/vinculo/listar.html(id=${item.id})}"><button>Listar</button></a></td>
             </tr>
         </table>
         <p><button><a th:href="@{/usuario/usuario-logado.html}">Voltar</a></button></p>
