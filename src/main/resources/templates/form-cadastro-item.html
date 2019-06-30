@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Item</title>
+</head>
+
+<body>
+
+    <h1>Cadastro de Item: </h1>
+
+    <form th:action="@{/item/cadastro.html}" th:object="${item}" method="POST">
+        <table>
+            <tr>
+                <td><label>Título: <input type="text" th:field="*{titulo}" /></label></td>
+                <td><strong th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></strong></td>
+            </tr>
+            <tr>
+                <td>Etiquetas: </td>
+            </tr>
+            <tr>               
+                <td>
+                    <th:block th:each="etiqueta : ${etiquetas}">
+                        <input type="checkbox" name="et" th:value="${etiqueta.id}"/>
+                        <label th:text="${etiqueta.titulo}"></label>
+                    </th:block>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit"/></td>
+                <td><input type="reset"/></td>
+            </tr>
+        </table>
+    </form>
+    <p><button><a th:href="@{/usuario/usuario-logado.html}">Voltar</a></button></p>
+</body>
+</html>
