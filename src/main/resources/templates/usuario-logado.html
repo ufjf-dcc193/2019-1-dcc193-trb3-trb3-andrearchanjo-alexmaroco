@@ -8,6 +8,11 @@
 
     <h1>Bem vindo <span th:text="${usuario.nome}">Seu Nome Aqui</span>!</h1>
     
+    <ul>
+        <li><a th:href="@{/item/cadastro.html}">Cadastro de Itens</a></li>
+        <li><a th:href="@{/item/listar.html}">Listar todos os Itens</a></li>
+    </ul>
+
     <p>
         <button><a th:href="@{/login/logout.html}">Sair</a></button>
     </p>
