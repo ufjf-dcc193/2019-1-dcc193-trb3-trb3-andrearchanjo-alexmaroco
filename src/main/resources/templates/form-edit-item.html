@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Item</title>
+</head>
+
+<body>
+
+    <h1>Editar Item: </h1>
+
+    <form th:action="@{/item/editar.html(id=${item.id})}" th:object="${item}" method="POST">
+        <table>
+            <tr>
+                <td><label>Título: <input type="text" th:field="*{titulo}" /></label></td>
+                <td><strong th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></strong></td>
+            </tr>
+                <td><input type="submit"/></td>
+                <td><input type="reset"/></td>
+            </tr>
+        </table>
+    </form>
+    <p><button><a th:href="@{/usuario/usuario-logado.html}">Voltar</a></button></p>
+</body>
+</html>
