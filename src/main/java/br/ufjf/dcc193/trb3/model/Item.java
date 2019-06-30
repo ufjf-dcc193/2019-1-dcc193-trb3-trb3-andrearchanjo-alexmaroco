@@ -1,5 +1,6 @@
 package br.ufjf.dcc193.trb3.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -28,13 +29,17 @@ public class Item {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Anotacao> item_anotacoes;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany()
     private List<Etiqueta> item_etiquetas;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vinculo> item_vinculos;
 
-    public Item() {}
+    public Item() {
+        item_anotacoes = new ArrayList<Anotacao>();
+        item_etiquetas = new ArrayList<Etiqueta>();
+        item_vinculos = new ArrayList<Vinculo>();
+    }
 
     public Long getId() {
         return id;
@@ -74,6 +79,10 @@ public class Item {
 
     public void setItem_vinculos(List<Vinculo> item_vinculos) {
         this.item_vinculos = item_vinculos;
+    }
+
+    public void addEtiqueta(Etiqueta e){
+        this.item_etiquetas.add(e);
     }
 
     @Override
