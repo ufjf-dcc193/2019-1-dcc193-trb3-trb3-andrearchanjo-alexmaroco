@@ -81,16 +81,17 @@ public class UsuarioController {
     }
 
     @PostMapping(value={"/editar.html" })
-    public ModelAndView editarUsuario(@Valid Usuario usuario, BindingResult binding) {
+    public ModelAndView editarUsuario(@RequestParam Long id, @Valid Usuario usuario, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
             if(binding.hasErrors()){
                 mv.setViewName("form-edit-usuario");
                 mv.addObject("usuario", usuario);
                 return mv;
             }
-            //Usuario user = uRepo.getOne(usuario.getId());
-            //System.err.println(user);
-            uRepo.save(usuario);
+            Usuario u = uRepo.findById(id).get();
+            String[] ignorar = {"id"};
+            BeanUtils.copyProperties(usuario, u, ignorar);
+            uRepo.save(u);
             mv.setViewName("redirect:/usuario/listar.html");
             return mv;
     }
