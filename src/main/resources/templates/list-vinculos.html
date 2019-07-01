@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de itens</title>
+</head>
+
+<body>
+
+    <h1>Itens registrados: </h1>
+
+    <table border="1">
+            <tr> 
+                <th>Id</th>
+                <th>Id Item Origem</th>
+                <th>Id Item Destino</th>
+                <th>Anotações</th>
+                <th>Etiquetas</th>
+                <th colspan="2">Ações</th>
+            </tr>
+            <tr th:each="vinculo : ${vinculos}">
+                <td th:text="${vinculo.id}">...</td>
+                <td th:text="${vinculo.idItemOrigem}">...</td>
+                <td th:text="${vinculo.idItemDestino}">...</td>
+                <td th:text="${vinculo.item_etiquetas}">...</td>
+                <td th:text="${vinculo.item_anotacoes}">...</td>
+                <td><a th:href="@{/vinculo/editar.html(id=${item.id})}"><button>Editar</button></a></td>
+                <td><a th:href="@{/vinculo/excluir.html(id=${item.id})}"><button>Excluir</button></a></td>
+            </tr>
+        </table>
+        <p><button><a th:href="@{/item/listar.html}">Voltar</a></button></p>
+</body>
+</html>

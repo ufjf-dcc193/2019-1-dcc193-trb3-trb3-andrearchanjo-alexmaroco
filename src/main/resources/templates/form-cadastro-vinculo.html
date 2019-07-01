@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Vínculo</title>
+</head>
+
+<body>
+
+    <h1>Cadastro de Vínculo: </h1>
+
+    <form th:action="@{/vinculo/cadastro.html?id=item.id}" th:object="${vinculo}" method="POST">
+        <table>
+            <tr>
+                <td>
+                    <select th:field="*{idItemDestino}" >
+                        <option th:each="item : ${itens}"
+                            th:value="${item.id}"
+                            th:text="${item.titulo}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit"/></td>
+                <td><input type="reset"/></td>
+            </tr>
+        </table>
+    </form>
+    <p><button><a th:href="@{/index.html}">Voltar</a></button></p>
+</body>
+</html>
