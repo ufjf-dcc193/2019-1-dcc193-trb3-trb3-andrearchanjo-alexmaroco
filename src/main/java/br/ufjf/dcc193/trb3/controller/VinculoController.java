@@ -67,9 +67,10 @@ public class VinculoController {
         }
         System.err.println(item);
         System.err.println(vinculo);
+        vinculo.setId(null);
         vinculo.setIdItemOrigem(item.getId());
-        vRepo.save(vinculo);
-        
+        vinculo = vRepo.save(vinculo);
+        System.err.println(vinculo);
         mv.setViewName("redirect:/item/listar.html");
         return mv;
     }
