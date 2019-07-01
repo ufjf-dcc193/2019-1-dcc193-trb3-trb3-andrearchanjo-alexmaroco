@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -27,7 +28,7 @@ public class Vinculo {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Anotacao> vinculo_anotacoes;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany()
     private List<Etiqueta> vinculo_etiquetas;
 
     public Vinculo() {}
