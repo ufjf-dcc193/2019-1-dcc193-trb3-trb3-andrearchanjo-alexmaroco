@@ -10,14 +10,14 @@
 
     <h1>Cadastro de Vínculo: </h1>
 
-    <form th:action="@{/vinculo/cadastro.html?id=item.id}" th:object="${vinculo}" method="POST">
+    <form th:action="@{/vinculo/cadastro.html(id=${item.id})}" th:object="${vinculo}" method="POST">
         <table>
             <tr>
                 <td>
                     <select th:field="*{idItemDestino}" >
-                        <option th:each="item : ${itens}"
-                            th:value="${item.id}"
-                            th:text="${item.titulo}">
+                        <option th:each="it : ${itens}"
+                            th:value="${it.id}"
+                            th:text="${it.titulo}">
                         </option>
                     </select>
                 </td>
