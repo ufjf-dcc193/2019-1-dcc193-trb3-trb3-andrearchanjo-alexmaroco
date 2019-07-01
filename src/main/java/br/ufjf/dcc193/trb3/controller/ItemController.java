@@ -48,18 +48,19 @@ public class ItemController {
     }
 
     @PostMapping("/cadastro.html")
-    public ModelAndView cadastroItem(@Valid Item item, @RequestParam List<Long> et,BindingResult binding) {
+    public ModelAndView cadastroItem(@Valid Item item, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
         if(binding.hasErrors()){
             mv.setViewName("form-cadastro-item");
             mv.addObject("item", item);
             return mv;
         }
-        for (Long i : et) {
+        /*for (Long i : et) {
             Etiqueta e = etRepo.findById(i).get();
             System.err.println(e);
             item.addEtiqueta(e);
-        }
+        }*/
+    
         iRepo.save(item);
         System.err.println(item);
         mv.setViewName("redirect:/usuario/usuario-logado.html");
