@@ -48,18 +48,19 @@ public class ItemController {
     }
 
     @PostMapping("/cadastro.html")
-    public ModelAndView cadastroItem(@Valid Item item, BindingResult binding) {
+    public ModelAndView cadastroItem(@Valid Item item, @RequestParam List<Long> et,BindingResult binding) {
         ModelAndView mv = new ModelAndView();
         if(binding.hasErrors()){
             mv.setViewName("form-cadastro-item");
             mv.addObject("item", item);
             return mv;
         }
-        /*for (Long i : et) {
+
+        for (Long i : et) {
             Etiqueta e = etRepo.findById(i).get();
             System.err.println(e);
             item.addEtiqueta(e);
-        }*/
+        }
     
         iRepo.save(item);
         System.err.println(item);
@@ -77,7 +78,7 @@ public class ItemController {
     }
 
     @GetMapping(value={"/excluir.html" })
-    public ModelAndView excluirUsuario(@RequestParam Long id) {
+    public ModelAndView excluirItem(@RequestParam Long id) {
         ModelAndView mv = new ModelAndView();
         iRepo.deleteById(id);
         mv.setViewName("redirect:/item/listar.html");
@@ -88,26 +89,32 @@ public class ItemController {
     public ModelAndView editarItem(@RequestParam Long id) {
         ModelAndView mv = new ModelAndView();
         Item item = iRepo.findById(id).get();
+        List<Etiqueta> etiquetas = etRepo.findAll();
+        mv.addObject("etiquetas", etiquetas);
         mv.addObject("item", item);
         mv.setViewName("form-edit-item");
         return mv;
     }
 
     @PostMapping(value={"/editar.html" })
-    public ModelAndView editarItem(@RequestParam Long id, @Valid Item item, BindingResult binding) {
+    public ModelAndView editarItem(@RequestParam Long id, @RequestParam List<Long> et, @Valid Item item, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
-            if(binding.hasErrors()){
-                mv.setViewName("form-edit-item");
-                mv.addObject("item", item);
-                return mv;
-            }
-            Item it = iRepo.findById(id).get();
-            item.setItem_etiquetas(it.getItem_etiquetas());
-            String[] ignorar = {"id", "item_anotacoes", "item_vinculos"};
-            BeanUtils.copyProperties(item, it, ignorar);
-            iRepo.save(item);
-            mv.setViewName("redirect:/item/listar.html");
+        if(binding.hasErrors()){
+            mv.setViewName("form-edit-item");
+            mv.addObject("item", item);
             return mv;
+        }
+        Item it = iRepo.findById(id).get();
+        for (Long i : et) {
+            Etiqueta e = etRepo.findById(i).get();
+            System.err.println(e);
+            item.addEtiqueta(e);
+        }
+        String[] ignorar = {"id", "item_anotacoes", "item_vinculos"};
+        BeanUtils.copyProperties(item, it, ignorar);
+        iRepo.save(item);
+        mv.setViewName("redirect:/item/listar.html");
+        return mv;
     }
     
 }

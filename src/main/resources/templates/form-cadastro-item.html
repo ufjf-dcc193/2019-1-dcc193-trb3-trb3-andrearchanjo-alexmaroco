@@ -16,7 +16,7 @@
                 <td><label>Título: <input type="text" th:field="*{titulo}" /></label></td>
                 <td><strong th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></strong></td>
             </tr>
-            <!-- <tr>
+            <tr>
                 <td>Etiquetas: </td>
             </tr>
             <tr>               
@@ -26,7 +26,7 @@
                         <label th:text="${etiqueta.titulo}"></label>
                     </th:block>
                 </td>
-            </tr> -->
+            </tr>
             <tr>
                 <td><input type="submit"/></td>
                 <td><input type="reset"/></td>
