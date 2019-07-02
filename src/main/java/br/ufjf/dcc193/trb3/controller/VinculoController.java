@@ -153,15 +153,23 @@ public class VinculoController {
     @PostMapping(value={"/editar.html" })
     public ModelAndView editarVinculo(@RequestParam Long id, @RequestParam(required = false) List<Long> et, @Valid Vinculo vinculo, @RequestParam Long idItem, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
+        List<Etiqueta> etiquetas = etRepo.findAll();
         if(binding.hasErrors()){
             mv.setViewName("form-edit-item");
-            List<Etiqueta> etiquetas = etRepo.findAll();
             mv.addObject("etiquetas", etiquetas);
             mv.addObject("idItem", idItem);
             mv.addObject("vinculo", vinculo);
             return mv;
         }
         Vinculo v = vRepo.findById(id).get();
+        
+        // Remove a referencia aos antigos vinculos
+        for(Etiqueta etq: etiquetas) {
+            if(etq.removeVinculo(v)) {
+                etRepo.save(etq);
+            }
+        }
+
         if(et != null) {
             for (Long i : et) {
                 Etiqueta e = etRepo.findById(i).get();
