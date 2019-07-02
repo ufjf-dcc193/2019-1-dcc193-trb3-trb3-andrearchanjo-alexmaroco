@@ -101,8 +101,20 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item [anotacoes=" + item_anotacoes + ", etiquetas=" + item_etiquetas + ", id=" + id + ", titulo=" + titulo
-                + ", vinculos=" + item_vinculos + "]";
+        List<Long> etqIds = new ArrayList<Long>();
+        for(Etiqueta e: item_etiquetas) {
+            etqIds.add(e.getId());
+        }
+        List<Long> vincIds = new ArrayList<Long>();
+        for(Vinculo v: item_vinculos) {
+            vincIds.add(v.getId());
+        }
+        List<Long> anotIds = new ArrayList<Long>();
+        for(Anotacao a: item_anotacoes) {
+            anotIds.add(a.getId());
+        }
+        return "Item [anotacoes=" + anotIds + ", etiquetas=" + etqIds + ", id=" + id + ", titulo=" + titulo
+                + ", vinculos=" + vincIds + "]";
     }
 
     @PreRemove
