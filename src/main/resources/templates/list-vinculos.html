@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Lista de itens</title>
+    <title>Lista de Vínculos</title>
 </head>
 
 <body>
 
-    <h1>Itens registrados: </h1>
+    <h1>Vínculos registrados: </h1>
 
     <table border="1">
             <tr> 
@@ -23,10 +23,10 @@
                 <td th:text="${vinculo.id}">...</td>
                 <td th:text="${vinculo.idItemOrigem}">...</td>
                 <td th:text="${vinculo.idItemDestino}">...</td>
-                <td th:text="${vinculo.item_etiquetas}">...</td>
-                <td th:text="${vinculo.item_anotacoes}">...</td>
-                <td><a th:href="@{/vinculo/editar.html(id=${item.id})}"><button>Editar</button></a></td>
-                <td><a th:href="@{/vinculo/excluir.html(id=${item.id})}"><button>Excluir</button></a></td>
+                <td th:text="${vinculo.vinculo_anotacoes}">...</td>
+                <td th:text="${vinculo.vinculo_etiquetas}">...</td>
+                <td><a th:href="@{/vinculo/editar.html(id=${vinculo.id}, idItem=${idItem})}"><button>Editar</button></a></td>
+                <td><a th:href="@{/vinculo/excluir.html(id=${vinculo.id}, idItem=${idItem})}"><button>Excluir</button></a></td>
             </tr>
         </table>
         <p><button><a th:href="@{/item/listar.html}">Voltar</a></button></p>
