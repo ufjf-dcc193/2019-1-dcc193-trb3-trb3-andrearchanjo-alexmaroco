@@ -1,9 +1,13 @@
 package br.ufjf.dcc193.trb3.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -24,6 +28,12 @@ public class Etiqueta {
 
     @NotBlank(message = "O campo não pode estar vazio")
     private String url;
+
+    @ManyToMany()
+    private List<Item> itemEtiqueta;
+
+    @ManyToMany()
+    private List<Vinculo> vinculoEtiqueta;
 
     public Etiqueta() {}
 
@@ -65,5 +75,47 @@ public class Etiqueta {
     }
 
     
+    // Remove a etiqueta a ser deletada das outras entidades
+    @PreRemove
+    public void preremove() {
+        for(Item i: itemEtiqueta) {
+            i.removeEtiqueta(this);
+        }
+        for(Vinculo v: vinculoEtiqueta) {
+            v.removeEtiqueta(this);
+        }
+    }
+
+    public List<Item> getItemEtiqueta() {
+        return itemEtiqueta;
+    }
+
+    public void setItemEtiqueta(List<Item> itemEtiqueta) {
+        this.itemEtiqueta = itemEtiqueta;
+    }
+
+    public List<Vinculo> getVinculoEtiqueta() {
+        return vinculoEtiqueta;
+    }
+
+    public void setVinculoEtiqueta(List<Vinculo> vinculoEtiqueta) {
+        this.vinculoEtiqueta = vinculoEtiqueta;
+    }
+
+    public void addItem(Item i) {
+        this.itemEtiqueta.add(i);
+    }
+
+    public void removeItem(Item i) {
+        this.itemEtiqueta.remove(i);
+    }
+
+    public void addVinculo(Vinculo v) {
+        this.vinculoEtiqueta.add(v);
+    }
+
+    public void removeVinculo(Vinculo v) {
+        this.vinculoEtiqueta.remove(v);
+    }
     
 }
