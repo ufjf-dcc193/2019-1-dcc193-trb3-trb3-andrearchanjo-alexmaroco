@@ -30,3 +30,4 @@ build/
 ### VS Code ###
 .vscode/
 derby.log
+src/main/resources/application-dev.properties
