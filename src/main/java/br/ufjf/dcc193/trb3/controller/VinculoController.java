@@ -82,6 +82,7 @@ public class VinculoController {
                 Etiqueta e = etRepo.findById(i).get();
                 // System.err.println(e);
                 vinculo.addEtiqueta(e);
+                e.addVinculo(vinculo);
             }
         }
         // System.err.println(item);
@@ -165,6 +166,7 @@ public class VinculoController {
             for (Long i : et) {
                 Etiqueta e = etRepo.findById(i).get();
                 // System.err.println(e);
+                e.addVinculo(vinculo);
                 vinculo.addEtiqueta(e);
             }
         }
