@@ -39,7 +39,7 @@ public class ItemController {
     @GetMapping("/cadastro.html")
     public ModelAndView cadastroItem() {
         ModelAndView mv = new ModelAndView();
-        System.err.println(iRepo.findAll());
+        // System.err.println(iRepo.findAll());
         List<Etiqueta> etiquetas = etRepo.findAll();
         mv.addObject("item", new Item());
         mv.addObject("etiquetas", etiquetas);
@@ -48,23 +48,23 @@ public class ItemController {
     }
 
     @PostMapping("/cadastro.html")
-    public ModelAndView cadastroItem(@Valid Item item, @RequestParam List<Long> et,BindingResult binding) {
+    public ModelAndView cadastroItem(@Valid Item item, @RequestParam(required = false) List<Long> et,BindingResult binding) {
         ModelAndView mv = new ModelAndView();
         if(binding.hasErrors()){
             mv.setViewName("form-cadastro-item");
             mv.addObject("item", item);
             return mv;
         }
-
-        for (Long i : et) {
-            Etiqueta e = etRepo.findById(i).get();
-            System.err.println(e);
-            item.addEtiqueta(e);
+        if(et != null) {
+            for (Long i : et) {
+                Etiqueta e = etRepo.findById(i).get();
+                // System.err.println(e);
+                item.addEtiqueta(e);
+            }
         }
-    
         iRepo.save(item);
-        System.err.println(item);
-        mv.setViewName("redirect:/usuario/usuario-logado.html");
+        // System.err.println(item);
+        mv.setViewName("redirect:/index.html");
         return mv;
     }
 
@@ -97,7 +97,7 @@ public class ItemController {
     }
 
     @PostMapping(value={"/editar.html" })
-    public ModelAndView editarItem(@RequestParam Long id, @RequestParam List<Long> et, @Valid Item item, BindingResult binding) {
+    public ModelAndView editarItem(@RequestParam Long id, @RequestParam(required = false) List<Long> et, @Valid Item item, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
         if(binding.hasErrors()){
             mv.setViewName("form-edit-item");
@@ -105,10 +105,12 @@ public class ItemController {
             return mv;
         }
         Item it = iRepo.findById(id).get();
-        for (Long i : et) {
-            Etiqueta e = etRepo.findById(i).get();
-            System.err.println(e);
-            item.addEtiqueta(e);
+        if(et != null) {
+            for (Long i : et) {
+                Etiqueta e = etRepo.findById(i).get();
+                System.err.println(e);
+                item.addEtiqueta(e);
+            }
         }
         String[] ignorar = {"id", "item_anotacoes", "item_vinculos"};
         BeanUtils.copyProperties(item, it, ignorar);
