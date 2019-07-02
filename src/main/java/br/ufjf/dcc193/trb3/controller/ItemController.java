@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.ufjf.dcc193.trb3.model.Etiqueta;
 import br.ufjf.dcc193.trb3.model.Item;
+import br.ufjf.dcc193.trb3.model.Vinculo;
 import br.ufjf.dcc193.trb3.repository.EtiquetaRepository;
 import br.ufjf.dcc193.trb3.repository.ItemRepository;
 import br.ufjf.dcc193.trb3.service.LoginService;
@@ -59,7 +60,9 @@ public class ItemController {
             for (Long i : et) {
                 Etiqueta e = etRepo.findById(i).get();
                 // System.err.println(e);
+                e.addItem(item);
                 item.addEtiqueta(e);
+                // etRepo.save(e);
             }
         }
         iRepo.save(item);
@@ -80,6 +83,7 @@ public class ItemController {
     @GetMapping(value={"/excluir.html" })
     public ModelAndView excluirItem(@RequestParam Long id) {
         ModelAndView mv = new ModelAndView();
+        preRemoveItem(id);
         iRepo.deleteById(id);
         mv.setViewName("redirect:/item/listar.html");
         return mv;
@@ -108,15 +112,38 @@ public class ItemController {
         if(et != null) {
             for (Long i : et) {
                 Etiqueta e = etRepo.findById(i).get();
-                System.err.println(e);
+                // System.err.println(e);
+                e.addItem(item);
                 item.addEtiqueta(e);
             }
         }
         String[] ignorar = {"id", "item_anotacoes", "item_vinculos"};
         BeanUtils.copyProperties(item, it, ignorar);
-        iRepo.save(item);
+        iRepo.save(it);
         mv.setViewName("redirect:/item/listar.html");
         return mv;
     }
     
+    public void preRemoveItem(Long id) {
+        Item i = iRepo.getOne(id);
+        Long id1 = i.getId();
+        for(Vinculo v: i.getItem_vinculos()) {
+            if(id1 != v.getIdItemOrigem()) {
+                Item i2 = iRepo.findById(v.getIdItemOrigem()).get();
+                i2.removeVinculo(v);
+                iRepo.save(i2);
+            } else {
+                Item i2 = iRepo.findById(v.getIdItemDestino()).get();
+                i2.removeVinculo(v);
+                iRepo.save(i2);
+            }
+        }
+        for(Etiqueta e: i.getItem_etiquetas()) {
+            e.removeItem(i);
+            etRepo.save(e);
+        }
+        i.getItem_vinculos().clear();
+        i.getItem_etiquetas().clear();
+        iRepo.save(i);
+    }
 }
