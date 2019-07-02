@@ -33,7 +33,7 @@ public class Item {
     @ManyToMany()
     private List<Etiqueta> item_etiquetas;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany()
     private List<Vinculo> item_vinculos;
 
     public Item() {
