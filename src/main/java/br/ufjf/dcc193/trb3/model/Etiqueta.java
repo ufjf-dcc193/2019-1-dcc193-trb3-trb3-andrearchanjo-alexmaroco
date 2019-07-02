@@ -106,16 +106,16 @@ public class Etiqueta {
         this.itemEtiqueta.add(i);
     }
 
-    public void removeItem(Item i) {
-        this.itemEtiqueta.remove(i);
+    public boolean removeItem(Item i) {
+        return this.itemEtiqueta.remove(i);
     }
 
     public void addVinculo(Vinculo v) {
         this.vinculoEtiqueta.add(v);
     }
 
-    public void removeVinculo(Vinculo v) {
-        this.vinculoEtiqueta.remove(v);
+    public boolean removeVinculo(Vinculo v) {
+        return this.vinculoEtiqueta.remove(v);
     }
     
 }
