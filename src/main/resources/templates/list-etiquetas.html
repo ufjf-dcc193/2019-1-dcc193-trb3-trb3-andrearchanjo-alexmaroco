@@ -16,6 +16,8 @@
                 <th>Título</th>
                 <th>Descrição</th>
                 <th>URL</th>
+                <th>Itens com esta etiqueta</th>
+                <th>Vinculos com esta etiqueta</th>
                 <th colspan="2">Ações</th>
             </tr>
             <tr th:each="etiqueta : ${etiquetas}">
@@ -23,6 +25,8 @@
                 <td th:text="${etiqueta.titulo}">...</td>
                 <td th:text="${etiqueta.descricao}">...</td>
                 <td th:text="${etiqueta.url}">...</td>
+                <td th:text="${etiqueta.itemEtiqueta}">...</td>
+                <td th:text="${etiqueta.vinculoEtiqueta}">...</td>
                 <td><a th:href="@{/etiqueta/editar.html(id=${etiqueta.id})}"><button>Editar</button></a></td>
                 <td><a th:href="@{/etiqueta/excluir.html(id=${etiqueta.id})}"><button>Excluir</button></a></td>
             </tr>
