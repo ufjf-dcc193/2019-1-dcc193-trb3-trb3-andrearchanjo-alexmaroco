@@ -42,13 +42,15 @@ public class VinculoController {
     private VinculoRepository vRepo;
 
     @GetMapping("/cadastro.html")
-    public ModelAndView cadastroItem(@RequestParam Long id) {
+    public ModelAndView cadastroVinculo(@RequestParam Long id) {
         ModelAndView mv = new ModelAndView();
         System.err.println(id);
         List<Item> itens = iRepo.getAlmostAllItems(id);
+        /*
         for (Item var : itens) {
             System.err.println(var.toString());
         }
+        */
         Item item = iRepo.findById(id).get();
         List<Etiqueta> etiquetas = etRepo.findAll();
         mv.addObject("etiquetas", etiquetas);
@@ -60,13 +62,13 @@ public class VinculoController {
     }
 
     @PostMapping("/cadastro.html")
-    public ModelAndView cadastroItem(@Valid Vinculo vinculo, @RequestParam Long id, @RequestParam List<Long> et, BindingResult binding) {
+    public ModelAndView cadastroVinculo(@Valid Vinculo vinculo, @RequestParam Long id, @RequestParam(required = false) List<Long> et, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
         Item item = iRepo.findById(id).get();
         if(binding.hasErrors()){
             List<Item> itens = iRepo.getAlmostAllItems(id);
-            System.err.println(item);
-            System.err.println(vinculo);
+            // System.err.println(item);
+            // System.err.println(vinculo);
             List<Etiqueta> etiquetas = etRepo.findAll();
             mv.addObject("etiquetas", etiquetas);
             mv.setViewName("form-cadastro-item");
@@ -75,18 +77,30 @@ public class VinculoController {
             mv.addObject("itens", itens);
             return mv;
         }
-        for (Long i : et) {
-            Etiqueta e = etRepo.findById(i).get();
-            System.err.println(e);
-            vinculo.addEtiqueta(e);
+        if(et != null) {
+            for (Long i : et) {
+                Etiqueta e = etRepo.findById(i).get();
+                // System.err.println(e);
+                vinculo.addEtiqueta(e);
+            }
         }
-        System.err.println(item);
-        System.err.println(vinculo);
+        // System.err.println(item);
+        // System.err.println(vinculo);
         vinculo.setId(null);
         vinculo.setIdItemOrigem(item.getId());
-        item.addVinculo(vinculo);
+        //item.addVinculo(vinculo);
         vinculo = vRepo.save(vinculo);
-        System.err.println(vinculo);
+        Item i1 = iRepo.getOne(item.getId());
+        Item i2 = iRepo.getOne(vinculo.getIdItemDestino());
+        if(i1 != null && i2 != null) {
+            i1.addVinculo(vinculo);
+            i2.addVinculo(vinculo);
+            iRepo.save(i1);
+            iRepo.save(i2);
+        } else {
+            System.err.println("Erro que nao deveria existir");
+        }
+        // System.err.println(vinculo);
         mv.setViewName("redirect:/item/listar.html");
         return mv;
     }
@@ -105,10 +119,20 @@ public class VinculoController {
     @GetMapping(value={"/excluir.html" })
     public ModelAndView excluirVinculo(@RequestParam Long id, @RequestParam Long idItem) {
         ModelAndView mv = new ModelAndView();
+        Vinculo v = vRepo.findById(id).get();
+        Item i1 = iRepo.findById(v.getIdItemOrigem()).get();
+        Item i2 = iRepo.findById(v.getIdItemDestino()).get();
+        i1.getItem_vinculos().remove(v);
+        i2.getItem_vinculos().remove(v);
+        iRepo.save(i1);
+        iRepo.save(i2);
+        vRepo.deleteById(id);
+        /*
         Item i = iRepo.findById(idItem).get();
         Vinculo v = vRepo.findById(id).get();
         i.getItem_vinculos().remove(v);
         vRepo.deleteById(id);
+        */
         mv.setViewName("redirect:/vinculo/listar.html?id="+idItem);
         return mv;
     }
@@ -126,7 +150,7 @@ public class VinculoController {
     }
 
     @PostMapping(value={"/editar.html" })
-    public ModelAndView editarVinculo(@RequestParam Long id, @RequestParam List<Long> et, @Valid Vinculo vinculo, @RequestParam Long idItem, BindingResult binding) {
+    public ModelAndView editarVinculo(@RequestParam Long id, @RequestParam(required = false) List<Long> et, @Valid Vinculo vinculo, @RequestParam Long idItem, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
         if(binding.hasErrors()){
             mv.setViewName("form-edit-item");
@@ -137,17 +161,17 @@ public class VinculoController {
             return mv;
         }
         Vinculo v = vRepo.findById(id).get();
-        for (Long i : et) {
-            Etiqueta e = etRepo.findById(i).get();
-            System.err.println(e);
-            vinculo.addEtiqueta(e);
+        if(et != null) {
+            for (Long i : et) {
+                Etiqueta e = etRepo.findById(i).get();
+                // System.err.println(e);
+                vinculo.addEtiqueta(e);
+            }
         }
-        vinculo.setIdItemOrigem(v.getIdItemOrigem());
-        vinculo.setIdItemDestino(v.getIdItemDestino());
-        vinculo.setVinculo_anotacoes(v.getVinculo_anotacoes());
-        String[] ignorar = {"id", "vinculo_anotacoes"};
+        String[] ignorar = {"id", "idItemOrigem", "idItemDestino", "vinculo_anotacoes"};
         BeanUtils.copyProperties(vinculo, v, ignorar);
-        vRepo.save(vinculo);
+        v = vRepo.save(v);
+        System.err.println(v);
         mv.setViewName("redirect:/vinculo/listar.html?id="+idItem);
         return mv;
     }
