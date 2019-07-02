@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -90,10 +91,25 @@ public class Item {
         this.item_vinculos.add(v);
     }
 
+    public void removeEtiqueta(Etiqueta e) {
+        this.item_etiquetas.remove(e);
+    }
+
+    public void removeVinculo(Vinculo v) {
+        this.item_vinculos.remove(v);
+    }
+
     @Override
     public String toString() {
         return "Item [anotacoes=" + item_anotacoes + ", etiquetas=" + item_etiquetas + ", id=" + id + ", titulo=" + titulo
                 + ", vinculos=" + item_vinculos + "]";
+    }
+
+    @PreRemove
+    public void preRemove() {
+        for(Etiqueta e: item_etiquetas) {
+            e.removeItem(this);
+        }
     }
 
     

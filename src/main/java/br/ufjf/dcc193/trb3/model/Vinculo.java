@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 
 /**
  * Vinculo
@@ -81,13 +82,22 @@ public class Vinculo {
         this.vinculo_etiquetas.add(e);
     }
 
+    public void removeEtiqueta(Etiqueta e) {
+        this.vinculo_etiquetas.remove(e);
+    }
+
     @Override
     public String toString() {
         return "Vinculo [anotacoes=" + vinculo_anotacoes + ", etiquetas=" + vinculo_etiquetas + ", id=" + id + ", idItemDestino="
                 + idItemDestino + ", idItemOrigem=" + idItemOrigem + "]";
     }
 
-    
+    @PreRemove
+    public void preRemove() {
+        for(Etiqueta e: vinculo_etiquetas) {
+            e.removeVinculo(this);
+        }
+    }
 
     
 
