@@ -15,7 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufjf.dcc193.trb3.model.Etiqueta;
+
 import br.ufjf.dcc193.trb3.repository.EtiquetaRepository;
+
+// import br.ufjf.dcc193.trb3.model.Item;
+// import br.ufjf.dcc193.trb3.model.Vinculo;
+// import br.ufjf.dcc193.trb3.repository.ItemRepository;
+// import br.ufjf.dcc193.trb3.repository.VinculoRepository;
 
 /**
  * EtiquetaController
@@ -26,6 +32,12 @@ public class EtiquetaController {
 
     @Autowired
     private EtiquetaRepository etRepo;
+
+    // @Autowired
+    // private ItemRepository iRepo;
+
+    // @Autowired
+    // private VinculoRepository vRepo;
 
     @GetMapping("/cadastro.html")
     public ModelAndView cadastroUsuario() {
@@ -59,8 +71,10 @@ public class EtiquetaController {
     }
 
     @GetMapping(value={"/excluir.html" })
-    public ModelAndView excluirUsuario(@RequestParam Long id) {
+    public ModelAndView excluirEtiqueta(@RequestParam Long id) {
         ModelAndView mv = new ModelAndView();
+        // Etiqueta e = etRepo.getOne(id);
+        // preRemove(e);
         etRepo.deleteById(id);
         mv.setViewName("redirect:/etiqueta/listar.html");
         return mv;
@@ -90,4 +104,23 @@ public class EtiquetaController {
             mv.setViewName("redirect:/etiqueta/listar.html");
             return mv;
     }
+    /*
+    // Remoção manual, nao usado atualmente, feito pelo @PreRemove na classe Etiqueta
+    public void preRemove(Etiqueta e) {
+        List<Item> itens = iRepo.findAll();
+        for(Item i: itens) {
+            if(i.getItem_etiquetas().contains(e)) {
+                i.removeEtiqueta(e);
+                iRepo.save(i);
+            }
+        }
+        List<Vinculo> vinculos = vRepo.findAll();
+        for(Vinculo v: vinculos) {
+            if(v.getVinculo_etiquetas().contains(e)) {
+                v.removeEtiqueta(e);
+                vRepo.save(v);
+            }
+        }
+    }
+    */
 }
