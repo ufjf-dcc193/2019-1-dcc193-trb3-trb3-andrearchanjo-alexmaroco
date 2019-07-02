@@ -86,6 +86,10 @@ public class Item {
         this.item_etiquetas.add(e);
     }
 
+    public void addVinculo(Vinculo v){
+        this.item_vinculos.add(v);
+    }
+
     @Override
     public String toString() {
         return "Item [anotacoes=" + item_anotacoes + ", etiquetas=" + item_etiquetas + ", id=" + id + ", titulo=" + titulo
