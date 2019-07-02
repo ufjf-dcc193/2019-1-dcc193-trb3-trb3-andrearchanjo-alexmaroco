@@ -103,12 +103,22 @@ public class ItemController {
     @PostMapping(value={"/editar.html" })
     public ModelAndView editarItem(@RequestParam Long id, @RequestParam(required = false) List<Long> et, @Valid Item item, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
+        List<Etiqueta> etiquetas = etRepo.findAll();
         if(binding.hasErrors()){
+            mv.addObject("etiquetas", etiquetas);
             mv.setViewName("form-edit-item");
             mv.addObject("item", item);
             return mv;
         }
         Item it = iRepo.findById(id).get();
+        
+        // Remove a referencia as antigas etiquetas
+        for(Etiqueta etq: etiquetas) {
+            if(etq.removeItem(it)) {
+                etRepo.save(etq);
+            }
+        }
+
         if(et != null) {
             for (Long i : et) {
                 Etiqueta e = etRepo.findById(i).get();
