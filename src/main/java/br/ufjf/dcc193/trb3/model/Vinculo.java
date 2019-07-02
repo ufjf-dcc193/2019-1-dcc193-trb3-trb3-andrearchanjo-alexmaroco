@@ -1,5 +1,6 @@
 package br.ufjf.dcc193.trb3.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -31,7 +32,10 @@ public class Vinculo {
     @ManyToMany()
     private List<Etiqueta> vinculo_etiquetas;
 
-    public Vinculo() {}
+    public Vinculo() {
+        this.vinculo_etiquetas = new ArrayList<Etiqueta>();
+        this.vinculo_anotacoes = new ArrayList<Anotacao>();
+    }
 
     public Long getId() {
         return id;
@@ -71,6 +75,10 @@ public class Vinculo {
 
     public void setVinculo_etiquetas(List<Etiqueta> vinculo_etiquetas) {
         this.vinculo_etiquetas = vinculo_etiquetas;
+    }
+
+    public void addEtiqueta(Etiqueta e){
+        this.vinculo_etiquetas.add(e);
     }
 
     @Override
