@@ -10,7 +10,7 @@
 
     <h1>Login do Usuário: </h1>
 
-    <form th:action="@{login}" th:object="${usuario}" method="POST">
+    <form th:action="@{login.html}" th:object="${usuario}" method="POST">
         <table>
             <tr>
                 <td><label>E-mail: <input type="text" th:field="*{email}" /></label></td>

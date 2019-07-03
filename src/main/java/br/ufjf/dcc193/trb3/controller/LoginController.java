@@ -18,7 +18,6 @@ import br.ufjf.dcc193.trb3.service.LoginService;
  * LoginController
  */
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
@@ -27,7 +26,7 @@ public class LoginController {
     @Autowired
     UsuarioRepository uRepo;
 
-    @GetMapping(value={""})
+    @GetMapping(value={"/login.html"})
     public ModelAndView login() {
         ModelAndView mv = new ModelAndView();
         mv.addObject("usuario", new Usuario());
@@ -35,18 +34,18 @@ public class LoginController {
         return mv;
     }
 
-    @PostMapping(value="")
+    @PostMapping(value={"/login.html"})
     public ModelAndView login(@Valid Usuario usuario, BindingResult binding){
             ModelAndView mv = new ModelAndView();
-            System.err.println(usuario);
+            // System.err.println(usuario);
             Usuario user = uRepo.findOneByEmailAndCodAcesso(usuario.getEmail(), usuario.getCodAcesso());
             System.err.println(user);
             if(user != null){
                 ls.login(user);
-                mv.setViewName("redirect:/usuario/usuario-logado.html");
+                mv.setViewName("redirect:/index.html");
                 return mv;
             }
-            mv.setViewName("redirect:login");
+            mv.setViewName("redirect:/login.html");
             return mv;
     }
 
