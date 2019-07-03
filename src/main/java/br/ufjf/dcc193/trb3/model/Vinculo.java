@@ -88,7 +88,15 @@ public class Vinculo {
 
     @Override
     public String toString() {
-        return "Vinculo [anotacoes=" + vinculo_anotacoes + ", etiquetas=" + vinculo_etiquetas + ", id=" + id + ", idItemDestino="
+        List<Long> etqIds = new ArrayList<Long>();
+        for(Etiqueta e: vinculo_etiquetas) {
+            etqIds.add(e.getId());
+        }
+        List<Long> anotIds = new ArrayList<Long>();
+        for(Anotacao a: vinculo_anotacoes) {
+            anotIds.add(a.getId());
+        }
+        return "Vinculo [anotacoes=" + anotIds + ", etiquetas=" + etqIds + ", id=" + id + ", idItemDestino="
                 + idItemDestino + ", idItemOrigem=" + idItemOrigem + "]";
     }
 
