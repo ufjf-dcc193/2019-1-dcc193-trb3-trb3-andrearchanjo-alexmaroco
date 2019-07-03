@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de anotações</title>
+</head>
+
+<body>
+
+    <h1>Anotações registrados: </h1>
+
+    <table border="1">
+            <tr> 
+                <th>Id</th>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>URL</th>
+                <th>Id do Criador</th>
+                <th>Data de Inclusão</th>
+                <th>Data de Alteração</th>
+                <th colspan="2">Ações</th>
+            </tr>
+            <tr th:each="anotacao : ${anotacoes}">
+                <td th:text="${anotacao.id}">...</td>
+                <td th:text="${anotacao.titulo}">...</td>
+                <td th:text="${anotacao.descricao}">...</td>
+                <td th:text="${anotacao.url}">...</td>
+                <td th:text="${anotacao.idCriador}">...</td>
+                <td th:text="${anotacao.dataInclusao}">...</td>
+                <td th:text="${anotacao.dataAlteracao}">...</td>
+                <td><a th:href="@{/anotacao/editar2.html(id=${anotacao.id}, idItem=${idItem}, idVinculo=${idVinculo})}"><button>Editar</button></a></td>
+                <td><a th:href="@{/anotacao/excluir2.html(id=${anotacao.id}, idItem=${idItem}, idVinculo=${idVinculo})}"><button>Excluir</button></a></td>
+            </tr>
+        </table>
+        <p><button><a th:href="@{/index.html}">Voltar</a></button></p>
+</body>
+</html>
