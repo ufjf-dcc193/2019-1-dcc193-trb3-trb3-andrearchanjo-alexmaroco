@@ -70,6 +70,15 @@ public class EtiquetaController {
         return mv;
     }
 
+    @GetMapping(value={"/listarItens.html"})
+    public ModelAndView listarItensPorEtiqueta() {
+        ModelAndView mv = new ModelAndView();
+        List<Etiqueta> etiquetas = etRepo.findAll();
+        mv.addObject("etiquetas", etiquetas);
+        mv.setViewName("list-itens-por-etiqueta");
+        return mv;
+    }
+
     @GetMapping(value={"/excluir.html" })
     public ModelAndView excluirEtiqueta(@RequestParam Long id) {
         ModelAndView mv = new ModelAndView();

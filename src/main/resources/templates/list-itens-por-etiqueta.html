@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Itens agrupados por etiqueta</title>
+</head>
+
+<body>
+
+    <h1>Itens agrupados por etiqueta: </h1>
+    <div th:each="etiqueta : ${etiquetas}">
+        <h3 th:text="${etiqueta.titulo}">...</h3>
+        <table border="1">
+            <tr> 
+                <th>Id</th>
+                <th>Título</th>
+                <th>Vinculos</th>
+                <th>Anotaçoes</th>
+                <th colspan="2">Ações</th>
+            </tr>
+            <tr th:each="item: ${etiqueta.itemEtiqueta}">
+                <td th:text="${item.id}">...</td>
+                <td th:text="${item.titulo}">...</td>
+                <td th:text="${item.item_vinculos}">...</td>
+                <td th:text="${item.item_anotacoes}">...</td>
+                <td><a th:href="@{/item/editar.html(id=${item.id})}"><button>Editar</button></a></td>
+                <td><a th:href="@{/item/excluir.html(id=${item.id})}"><button>Excluir</button></a></td>
+            </tr>
+        </table>
+    </div>
+        <p><button><a th:href="@{/index.html}">Voltar</a></button></p>
+</body>
+</html>
