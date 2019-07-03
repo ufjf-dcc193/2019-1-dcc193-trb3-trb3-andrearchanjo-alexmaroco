@@ -66,6 +66,9 @@ public class UsuarioController {
     @GetMapping(value={"/excluir.html" })
     public ModelAndView excluirUsuario(@RequestParam Long id) {
         ModelAndView mv = new ModelAndView();
+        if(ls.getUser().getId() == id) {
+            ls.logout();
+        }
         uRepo.deleteById(id);
         mv.setViewName("redirect:/usuario/listar.html");
         return mv;
