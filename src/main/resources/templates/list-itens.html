@@ -18,8 +18,8 @@
                 <th>Vínculos</th>
                 <th>Anotações</th>
                 <th colspan="2">Ações</th>
-                <th colspan="2">Ações Vínculo</th>
-                <th colspan="2">Ações Anotação</th>
+                <th colspan="2">Vínculo</th>
+                <th th:if="${usuario} != null" colspan="2">Anotação</th>
             </tr>
             <tr th:each="item : ${itens}">
                 <td th:text="${item.id}">...</td>
@@ -31,8 +31,8 @@
                 <td><a th:href="@{/item/excluir.html(id=${item.id})}"><button>Excluir</button></a></td>
                 <td><a th:href="@{/vinculo/cadastro.html(id=${item.id})}"><button>Criar</button></a></td>
                 <td><a th:href="@{/vinculo/listar.html(id=${item.id})}"><button>Listar</button></a></td>
-                <td><a th:href="@{/anotacao/cadastro.html(idItem=${item.id})}"><button>Criar</button></a></td>
-                <td><a th:href="@{/anotacao/listar.html(idItem=${item.id})}"><button>Listar</button></a></td>
+                <td th:if="${usuario} != null"><a th:href="@{/anotacao/cadastro.html(idItem=${item.id})}"><button>Criar</button></a></td>
+                <td th:if="${usuario} != null"><a th:href="@{/anotacao/listar.html(idItem=${item.id})}"><button>Listar</button></a></td>
             </tr>
         </table>
         <p><button><a th:href="@{/index.html}">Voltar</a></button></p>

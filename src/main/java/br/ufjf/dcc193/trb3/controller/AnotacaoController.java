@@ -67,6 +67,12 @@ public class AnotacaoController {
     @PostMapping("/cadastro.html")
     public ModelAndView cadastroAnotacao(@Valid Anotacao anotacao, @RequestParam(required = false) Long idItem, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/item/listar.html");
+            return mv;
+        }
+
         if(binding.hasErrors()){
             mv.setViewName("form-cadastro-anotacao");
             mv.addObject("idItem", idItem);
@@ -74,7 +80,9 @@ public class AnotacaoController {
             return mv;
         }
         anotacao.setIdCriador(ls.getUser().getId());
-        anotacao.setDataInclusao(new Date());;
+        Date d = new Date();
+        anotacao.setDataInclusao(d);
+        anotacao.setDataAlteracao(d);
         if(idItem != null){
             Item i = iRepo.findById(idItem).get();
             i.getItem_anotacoes().add(anotacao);
@@ -88,6 +96,12 @@ public class AnotacaoController {
     @GetMapping(value={"/listar.html"})
     public ModelAndView listarTodos(@RequestParam Long idItem) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/item/listar.html");
+            return mv;
+        }
+
         Item i = iRepo.findById(idItem).get();
         List<Anotacao> anotacoes = i.getItem_anotacoes();
         mv.addObject("anotacoes", anotacoes);
@@ -99,6 +113,12 @@ public class AnotacaoController {
     @GetMapping(value={"/excluir.html" })
     public ModelAndView excluirAnotacao(@RequestParam Long id, @RequestParam Long idItem) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/item/listar.html");
+            return mv;
+        }
+
         Anotacao a = aRepo.findById(id).get();
         Item i = iRepo.findById(idItem).get();
         
@@ -112,6 +132,12 @@ public class AnotacaoController {
     @GetMapping(value={"/editar.html" })
     public ModelAndView editarAnotacao(@RequestParam Long id, @RequestParam Long idItem) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/item/listar.html");
+            return mv;
+        }
+
         Anotacao anotacao = aRepo.findById(id).get();
         mv.addObject("idItem", idItem);
         mv.addObject("anotacao", anotacao);
@@ -122,6 +148,12 @@ public class AnotacaoController {
     @PostMapping(value={"/editar.html" })
     public ModelAndView editarAnotacao(@RequestParam Long id, @Valid Anotacao anotacao, @RequestParam Long idItem, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/item/listar.html");
+            return mv;
+        }
+
         if(binding.hasErrors()){
             mv.setViewName("form-edit-item");
             mv.addObject("idItem", idItem);
@@ -136,7 +168,7 @@ public class AnotacaoController {
         
         String[] ignorar = {"id"};
         BeanUtils.copyProperties(anotacao, a, ignorar);
-        aRepo.save(anotacao);
+        aRepo.save(a);
         //System.err.println(v);
         mv.setViewName("redirect:/anotacao/listar.html?idItem="+idItem);
         return mv;
@@ -170,6 +202,12 @@ public class AnotacaoController {
     @PostMapping("/cadastro2.html")
     public ModelAndView cadastroAnotacao2(@Valid Anotacao anotacao, @RequestParam(required = false) Long idVinculo, @RequestParam Long idItem, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/vinculo/listar.html?id="+idItem);
+            return mv;
+        }
+
         if(binding.hasErrors()){
             mv.setViewName("form-cadastro-anotacao2");
             mv.addObject("idVinculo", idVinculo);
@@ -177,7 +215,9 @@ public class AnotacaoController {
             return mv;
         }
         anotacao.setIdCriador(ls.getUser().getId());
-        anotacao.setDataInclusao(new Date());;
+        Date d = new Date();
+        anotacao.setDataInclusao(d);
+        anotacao.setDataAlteracao(d);
         if(idVinculo != null){
             Vinculo v = vRepo.findById(idVinculo).get();
             v.getVinculo_anotacoes().add(anotacao);
@@ -191,6 +231,12 @@ public class AnotacaoController {
     @GetMapping(value={"/listar2.html"})
     public ModelAndView listarTodos2(@RequestParam Long idItem, @RequestParam Long idVinculo) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/vinculo/listar.html?id="+idItem);
+            return mv;
+        }
+
         Vinculo v = vRepo.findById(idVinculo).get();
         List<Anotacao> anotacoes = v.getVinculo_anotacoes();
         mv.addObject("anotacoes", anotacoes);
@@ -203,6 +249,12 @@ public class AnotacaoController {
     @GetMapping(value={"/excluir2.html" })
     public ModelAndView excluirAnotacao2(@RequestParam Long id, @RequestParam Long idItem, @RequestParam Long idVinculo) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/vinculo/listar.html?id="+idItem);
+            return mv;
+        }
+
         Anotacao a = aRepo.findById(id).get();
         Vinculo v = vRepo.findById(idVinculo).get();
         
@@ -216,6 +268,12 @@ public class AnotacaoController {
     @GetMapping(value={"/editar2.html" })
     public ModelAndView editarAnotacao2(@RequestParam Long id, @RequestParam Long idItem, @RequestParam Long idVinculo) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/vinculo/listar.html?id="+idItem);
+            return mv;
+        }
+
         Anotacao anotacao = aRepo.findById(id).get();
         mv.addObject("idVinculo", idVinculo);
         mv.addObject("idItem", idItem);
@@ -227,6 +285,12 @@ public class AnotacaoController {
     @PostMapping(value={"/editar2.html" })
     public ModelAndView editarAnotacao2(@RequestParam Long id, @Valid Anotacao anotacao, @RequestParam Long idItem, @RequestParam Long idVinculo, BindingResult binding) {
         ModelAndView mv = new ModelAndView();
+
+        if(ls.getUser() == null){
+            mv.setViewName("redirect:/vinculo/listar.html?id="+idItem);
+            return mv;
+        }
+
         if(binding.hasErrors()){
             mv.setViewName("form-edit-anotacao2");
             mv.addObject("idVinculo", idVinculo);
@@ -242,7 +306,7 @@ public class AnotacaoController {
         
         String[] ignorar = {"id"};
         BeanUtils.copyProperties(anotacao, a, ignorar);
-        aRepo.save(anotacao);
+        aRepo.save(a);
         //System.err.println(v);
         mv.setViewName("redirect:/anotacao/listar2.html?idItem="+idItem+"&idVinculo="+idVinculo);
         return mv;

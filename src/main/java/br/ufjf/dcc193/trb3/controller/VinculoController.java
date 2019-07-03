@@ -113,6 +113,7 @@ public class VinculoController {
         List<Vinculo> vinculos = i.getItem_vinculos();
         mv.addObject("vinculos", vinculos);
         mv.addObject("idItem", id);
+        mv.addObject("usuario", ls.getUser());
         mv.setViewName("list-vinculos");
         return mv;
     }

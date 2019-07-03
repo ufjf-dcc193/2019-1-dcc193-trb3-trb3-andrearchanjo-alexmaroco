@@ -76,6 +76,7 @@ public class ItemController {
         ModelAndView mv = new ModelAndView();
         List<Item> itens = iRepo.findAll();
         mv.addObject("itens", itens);
+        mv.addObject("usuario", ls.getUser());
         mv.setViewName("list-itens");
         return mv;
     }
