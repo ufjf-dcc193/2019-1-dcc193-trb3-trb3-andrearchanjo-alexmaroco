@@ -139,12 +139,31 @@ public class ItemController {
         Item i = iRepo.getOne(id);
         Long id1 = i.getId();
         for(Vinculo v: i.getItem_vinculos()) {
+            for(Etiqueta e: v.getVinculo_etiquetas()) {
+                Etiqueta et = etRepo.findById(e.getId()).get();
+                et.removeVinculo(v);
+                etRepo.save(et);
+            }
             if(id1 != v.getIdItemOrigem()) {
                 Item i2 = iRepo.findById(v.getIdItemOrigem()).get();
+                for(Vinculo v2: i2.getItem_vinculos()) {
+                    for(Etiqueta e: v2.getVinculo_etiquetas()) {
+                        Etiqueta et = etRepo.findById(e.getId()).get();
+                        et.removeVinculo(v);
+                        etRepo.save(et);
+                    }
+                }
                 i2.removeVinculo(v);
                 iRepo.save(i2);
             } else {
                 Item i2 = iRepo.findById(v.getIdItemDestino()).get();
+                for(Vinculo v2: i2.getItem_vinculos()) {
+                    for(Etiqueta e: v2.getVinculo_etiquetas()) {
+                        Etiqueta et = etRepo.findById(e.getId()).get();
+                        et.removeVinculo(v);
+                        etRepo.save(et);
+                    }
+                }
                 i2.removeVinculo(v);
                 iRepo.save(i2);
             }
