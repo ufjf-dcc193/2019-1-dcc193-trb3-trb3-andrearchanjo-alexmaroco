@@ -11,4 +11,4 @@ E-mail: alexsmaroco@gmail.com
 Instruções para o funcionamento do sistema:
 
 Faça o download ou clone o repositório. Em seguida rode o projeto.
-Também é possível acessar o projeto via link Heroku: https://trab3-andrearchanjo-alexmaroco.herokuapp.com/
+Também é possível acessar o projeto via link Heroku: https://trb3-andrearchanjo-alexmaroco.herokuapp.com/
