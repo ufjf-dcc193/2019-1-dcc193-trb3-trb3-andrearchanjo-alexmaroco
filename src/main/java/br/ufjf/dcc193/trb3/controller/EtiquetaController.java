@@ -107,9 +107,9 @@ public class EtiquetaController {
                 return mv;
             }
             Etiqueta etq = etRepo.findById(id).get();
-            String[] ignorar = {"id"};
+            String[] ignorar = {"id", "itemEtiqueta", "vinculoEtiqueta"};
             BeanUtils.copyProperties(etiqueta, etq, ignorar);
-            etRepo.save(etiqueta);
+            etRepo.save(etq);
             mv.setViewName("redirect:/etiqueta/listar.html");
             return mv;
     }
